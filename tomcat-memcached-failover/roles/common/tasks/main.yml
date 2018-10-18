@@ -1,0 +1,39 @@
+---
+# tasks file for ./roles/common
+
+- name: install libselinux-python
+  yum:
+      name: libselinux-python
+      state: present
+      update_cache: yes
+
+- name: Install GPG key for EPEL for Centos/RHEL 6
+  get_url:
+      url: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-6
+      dest: /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6
+  when: "ansible_os_family == 'RedHat' and (ansible_distribution_major_version == '6' or ansible_distribution_major_version == 'NA')"
+
+- name: Install EPEL repository for Centos/RHEL 6
+  yum:
+      name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
+      state: present
+      update_cache: yes
+  when: "ansible_os_family == 'RedHat' and (ansible_distribution_major_version == '6' or ansible_distribution_major_version == 'NA')"
+
+
+- name: Install GPG key for EPEL for Centos/RHEL 7
+  get_url:
+      url: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7
+      dest: /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-R7
+  when: "ansible_os_family == 'RedHat' and ansible_distribution_major_version == '7'"
+
+- name: Install EPEL repository for Centos/RHEL 7
+  yum:
+      name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+      state: present
+      update_cache: yes
+  when: "ansible_os_family == 'RedHat' and ansible_distribution_major_version == '7'"
+
+- name: Setup iptables rules
+  template: src=iptables.j2 dest=/etc/sysconfig/iptables backup=yes
+  notify: restart iptables

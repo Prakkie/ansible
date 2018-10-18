@@ -1,0 +1,9 @@
+# vars file for ./roles/common
+
+nginx_http_port: 80
+nginx_https_port: 443
+
+tomcat_http_port: 8081
+tomcat_https_port: 8082
+
+memcached_port: 11211
