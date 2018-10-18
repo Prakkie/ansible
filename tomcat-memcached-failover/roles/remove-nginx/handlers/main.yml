@@ -1,0 +1,24 @@
+---
+# handlers file for ./roles/remove-nginx
+
+- name: remove nginx dirs
+  file:
+      name: "{{ item }}"
+      state: absent
+  loop:
+      - /usr/share/nginx
+      - /etc/nginx
+
+- name: remove firewalld rules
+  firewalld:
+      service: "{{ item }}"
+      permanent: true
+      state: disabled
+  loop:
+      - http
+      - https
+  notify:
+      - reload firewalld
+
+- name: reload firewalld
+  command: firewall-cmd --reload

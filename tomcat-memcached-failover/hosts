@@ -1,0 +1,10 @@
+[controller]
+control ansible_host=192.168.56.50 ansible_connection=local ansible_user=root
+
+[loadbalancer]
+lb01 ansible_host=192.168.56.51 ansible_user=ansible
+
+[webserver]
+app01 ansible_host=192.168.56.50 ansible_user=ansible
+app02 ansible_host=ec2-54-190-31-154.us-west-2.compute.amazonaws.com ansible_user=ec2-user
+

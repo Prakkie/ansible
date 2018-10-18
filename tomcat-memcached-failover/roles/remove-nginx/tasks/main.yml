@@ -1,0 +1,18 @@
+---
+# tasks file for ./roles/remove-nginx
+
+- name: Stop nginx service
+  service:
+      name: nginx
+      state: stopped
+  ignore_errors: yes
+
+- name: Uninstall nginx
+  yum:
+      name: nginx
+      state: absent
+      update_cache: yes
+  notify:
+      - remove nginx dirs
+      - remove firewalld rules
+
