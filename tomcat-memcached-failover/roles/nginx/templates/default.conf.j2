@@ -1,6 +1,6 @@
 upstream tomcat  {
 {% for host in groups['webservers'] %}
-      server {{ ansible_host }}:{{ tomcat_http_port }};
+      server {{ hostvars[host]['ansible_host'] }}:{{ tomcat_http_port }};
 {% endfor %}
 }
 
